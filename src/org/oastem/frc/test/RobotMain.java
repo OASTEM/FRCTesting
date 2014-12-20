@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package org.oastem.frc.assist2;
+package org.oastem.frc.test;
 
 
 import edu.wpi.first.wpilibj.*;
