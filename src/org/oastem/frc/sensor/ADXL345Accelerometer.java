@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.oastem.frc.sensor;
 
 import edu.wpi.first.wpilibj.ADXL345_I2C;
@@ -10,20 +6,30 @@ import edu.wpi.first.wpilibj.ADXL345_I2C;
  * Custom class built that encloses the Accelerometer class in order to 
  * accomodate for drifting/out of range values.
  * 
- * @author Kevin is homo --Aurik Sarker
+ * @author KTOmega
  */
 public class ADXL345Accelerometer {
+	private static final int AXES = 3;
+	private static final int NORMAL_REACT = 0.02;
+	
+	// The wrapped accelerometer class.
+	// Depends on the model of accelerometer used.
     private ADXL345_I2C accel;
+    
+    // The initial readings to be used as a base.
     private double[] initialReadings;
+    
+    // The delta value which, if the change in any axis is greater than
+    // this value, will indicate that that axis has moved.
     private double reactValue;
     
     public ADXL345Accelerometer(int port) {
-        this(port, 0.02);
+        this(port, NORMAL_REACT);
     }
     
     public ADXL345Accelerometer(int port, double react) {
         accel = new ADXL345_I2C(port, ADXL345_I2C.DataFormat_Range.k8G);
-        initialReadings = new double[3];
+        initialReadings = new double[AXES];
         reactValue = react;
         
         initialize();
@@ -35,11 +41,9 @@ public class ADXL345Accelerometer {
         initialReadings[0] = accel.getAcceleration(ADXL345_I2C.Axes.kX);
         initialReadings[1] = accel.getAcceleration(ADXL345_I2C.Axes.kY);
         initialReadings[2] = accel.getAcceleration(ADXL345_I2C.Axes.kZ);
-        //System.out.println(initialReadings[1]);
     }
     
     public double getX() {
-        
         return calculateAngle(accel.getAcceleration(ADXL345_I2C.Axes.kX) - initialReadings[0]);
     }
     

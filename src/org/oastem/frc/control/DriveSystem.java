@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.oastem.frc.control;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -10,14 +6,26 @@ import edu.wpi.first.wpilibj.Victor;
 import java.util.Hashtable;
 
 /**
+ * Handles the drive train for the FRC robot. Plugs into all the motor
+ * controllers used for driving.
  *
  * @author KTOmega
  */
 public class DriveSystem {
+	// Use a singleton pattern because we only have one drive system
+	// per robot.
     protected static DriveSystem instance;
+    
+    // The WPILibJ class that handles robot driving natively.
     protected RobotDrive drive;
+    
+    // All the victors we will be using.
     protected Victor[] raw;
+    
+    // Has secondary drive?
     protected boolean hasSecondary = false;
+    
+    // Used only for secondary drive system.
     protected RobotDrive drive2;
     
     protected DriveSystem() {

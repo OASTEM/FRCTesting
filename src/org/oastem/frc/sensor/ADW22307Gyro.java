@@ -1,20 +1,21 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.oastem.frc.sensor;
 
 import edu.wpi.first.wpilibj.Gyro;
 
 /**
- * Enclosure class for the Gyro class, customized to deal with the constant
- * drifting of the gyroscope.
+ * Enclosure class for the WPILibJ Gyro class, customized to deal with 
+ * the constant drifting of the gyroscope.
  * 
  * @author KTOmega
  */
 public class ADW22307Gyro {
+	// The native Gyro class.
     private Gyro g;
+    
+    // The experimentally determined drift rate.
     private static final double DRIFT_PER_SECOND = 0.004578491443051003;
+    
+    // The last time this was updated.
     private long lastUpdateTime = 0;
     
     public ADW22307Gyro(int port) {

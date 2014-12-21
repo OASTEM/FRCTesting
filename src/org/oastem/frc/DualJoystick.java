@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.oastem.frc;
 
 import edu.wpi.first.wpilibj.GenericHID;
@@ -10,19 +6,31 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.parsing.IInputOutput;
 
 /**
+ * Allows you to use either joystick to perform the same commands on
+ * the robot.
  *
  * @author KTOmega
  */
 public class DualJoystick extends GenericHID implements IInputOutput {
-    
     private Joystick left;
     private Joystick right;
+    
+    // The preferred hand, left or right.
     private Hand pref;
+    
+    // By default that hand is the right hand.
+    private static final Hand DEFAULT_HAND = Hand.kRight;
+    
+    public DualJoystick(int left, int right) {
+		this(left, right, DEFAULT_HAND);
+	}
+	
+	public DualJoystick(Joystick left, Joystick right) {
+		this(left, right, DEFAULT_HAND);
+	}
 
     public DualJoystick(int left, int right, Hand pref) {
-        this.left = new Joystick(left);
-        this.right = new Joystick(right);
-        this.pref = pref;
+        this(new Joystick(left), new Joystick(right), pref);
     }
     
     public DualJoystick(Joystick left, Joystick right, Hand pref) {
@@ -39,11 +47,10 @@ public class DualJoystick extends GenericHID implements IInputOutput {
         return pref;
     }
 
+	// Returns whichever one is non-zero, or whichever one is preferred.
     private double nonZero(double leftVal, double rightVal) {
-        if (leftVal == 0) {
-            return rightVal;
-        } else if (rightVal == 0) {
-            return leftVal;
+        if (leftVal == 0 || rightVal == 0) {
+            return Math.max(leftVal, rightVal);
         } else {
             if (getPreference() == Hand.kLeft) {
                 return leftVal;
@@ -55,10 +62,13 @@ public class DualJoystick extends GenericHID implements IInputOutput {
         }
     }
 
+	// Gets whether a button is pushed on either of the joysticks.
     public boolean getRawButton(int button) {
         return left.getRawButton(button) || right.getRawButton(button);
     }
 
+	// Joysticks don't have bumpers.
+	// This method is only here to fully implement GenericHID.
     public boolean getBumper(Hand hand) {
         return false;
     }

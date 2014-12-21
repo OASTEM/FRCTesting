@@ -1,12 +1,12 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.oastem.frc;
 
 /**
+ * The directions to be used. This isn't an enum because the cRIO does
+ * NOT support enums. Might be supported in a future version though.
+ * 
+ * Cough cough RoboRIO
  *
- * @author STEM
+ * @author KTOmega
  */
 public class Direction {
     public static final Direction UP = new Direction(1);
