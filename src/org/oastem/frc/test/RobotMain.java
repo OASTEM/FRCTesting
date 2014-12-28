@@ -49,10 +49,13 @@ public class RobotMain extends SimpleRobot {
     
     private Encoder encoder;
     private ADW22307Gyro gyro;
+    private Compressor compress;
     
     private final int ENCODER_PORT_A = 1;
     private final int ENCODER_PORT_B = 2;
     private final int GYRO_PORT = 3;
+    private final int PRESSURE_SWITCH_CHANNEL = 3;
+    private final int COMP_RELAY_CHANNEL = 1;
     
     
     public void robotInit(){
@@ -62,7 +65,8 @@ public class RobotMain extends SimpleRobot {
         js = new Joystick(FIRST_JOYSTICK);
         encoder = new Encoder(ENCODER_PORT_A, ENCODER_PORT_B);
         gyro = new ADW22307Gyro(GYRO_PORT);
-        
+        compress = new Compressor(PRESSURE_SWITCH_CHANNEL, COMP_RELAY_CHANNEL);
+        //compress.start();
         
        
         
@@ -72,9 +76,7 @@ public class RobotMain extends SimpleRobot {
         Debug.log(1, 1, "Robot initialized.");
     }
     
-    /**
-     * This function is called once each time the robot enters autonomous mode.
-     */
+    
     
 
     /**
@@ -84,8 +86,11 @@ public class RobotMain extends SimpleRobot {
         long currentTime;
         long startTime = 0;
         boolean motorStart = false;
+        compress.start();
         while(isEnabled() && isOperatorControl()){
             currentTime = System.currentTimeMillis();
+            if (compress.getPressureSwitchValue())
+                compress.stop();
             /*debug[1] = "Drive Speed: " + js.getY() + ", " + js2.getY();
             ds.tankDrive(js.getY(), js2.getY());
             

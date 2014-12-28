@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.ADXL345_I2C;
  */
 public class ADXL345Accelerometer {
 	private static final int AXES = 3;
-	private static final int NORMAL_REACT = 0.02;
+	private static final double NORMAL_REACT = 0.02;
 	
 	// The wrapped accelerometer class.
 	// Depends on the model of accelerometer used.
