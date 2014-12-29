@@ -47,8 +47,8 @@ public class RobotMain extends SimpleRobot {
     
     private final int RUN_TIME = 5000;
     
-    private Encoder encoder;
-    private ADW22307Gyro gyro;
+    //private Encoder encoder;
+    //private ADW22307Gyro gyro;
     private Compressor compress;
     
     private final int ENCODER_PORT_A = 1;
@@ -63,8 +63,8 @@ public class RobotMain extends SimpleRobot {
         //ds.initializeDrive(LEFT_DRIVE_PORT, RIGHT_DRIVE_PORT);
         
         js = new Joystick(FIRST_JOYSTICK);
-        encoder = new Encoder(ENCODER_PORT_A, ENCODER_PORT_B);
-        gyro = new ADW22307Gyro(GYRO_PORT);
+        //encoder = new Encoder(ENCODER_PORT_A, ENCODER_PORT_B);
+        //gyro = new ADW22307Gyro(GYRO_PORT);
         compress = new Compressor(PRESSURE_SWITCH_CHANNEL, COMP_RELAY_CHANNEL);
         //compress.start();
         
@@ -111,8 +111,8 @@ public class RobotMain extends SimpleRobot {
             */
             
             motor1.set(js.getY());
-            debug[0] = "Rate: " + encoder.getRate();
-            debug[1] = "Angle: " + gyro.getAngle();
+            //debug[0] = "Rate: " + encoder.getRate();
+            //debug[1] = "Angle: " + gyro.getAngle();
             debug[2] = "how to do";
             Debug.log(debug);
         }
