@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.image.LinearAverages;
 import edu.wpi.first.wpilibj.image.NIVision;
 import edu.wpi.first.wpilibj.image.NIVisionException;
 import edu.wpi.first.wpilibj.image.ParticleAnalysisReport;
+import edu.wpi.first.wpilibj.image.ColorImage
 import org.oastem.frc.assist.RobotMain;
 
 /**
@@ -230,6 +231,97 @@ public class ImagingUtils {
     public static double getDistance(double pixelHeight) {
         return 129166.84601965 * MathUtils.pow(pixelHeight, -1.172464652462);
     }
+
+	/** 
+	 * ColorImage- getImage/getTarget/refresh/update
+	 */
+	public ColorImage getImage() throws AxisCameraException, NIVisionException {
+	  ColorImage image=new HSLImage();
+	  if (getImageFn.call1(image.image) == 0) {
+	    image.free();
+	    throw new AxisCameraException("No image available");
+	  }
+	  return image;
+	}
+	
+	public void update(ColorImage image){
+	  BinaryImage masked;
+	  BinaryImage hulled;
+	  BinaryImage filtered;
+	  ParticleAnalysisReport[] all;
+	  targets.removeAllElements();
+	  try {
+	    masked=image.thresholdRGB(redLow,redHigh,greenLow,greenHigh,blueLow,blueHigh);
+	    hulled=masked.convexHull(true);
+	    filtered=hulled.removeSmallObjects(true,2);
+	    all=filtered.getOrderedParticleAnalysisReports(10);
+	    image.free();
+	    filtered.free();
+	    hulled.free();
+	    masked.free();
+	    for (int i=0; i < all.length; i++) {
+	      if (all[i].particleArea > areaThreshold) {
+	        double rectangularityScore=rectangularityScore(all[i].particleArea,all[i].boundingRectWidth,all[i].boundingRectHeight);
+	        double aspectRatioScore=aspectRatioScore(all[i].boundingRectWidth,all[i].boundingRectHeight);
+	        if (rectangularityScore > rectangularityThreshold && aspectRatioScore > aspectThreshold) {
+	          targets.addElement(all[i]);
+	        }
+	      }
+	    }
+	  }
+	 catch (NIVisionException e) {
+	    Output.queue("TargetFinder:: Failed to update()");
+	    e.printStackTrace();
+	  }
+	  Output.queue("[TargetFinder] " + targets.size());
+	}
+	
+	public Target getTarget() throws NIVisionException, AxisCameraException {
+	  while (true) {
+	    ColorImage image=camera.getImage();
+	    try {
+	      return Target.getTarget(image,position,firstColor,secondColor);
+	    }
+	 catch (    Exception e) {
+	      e.printStackTrace();
+	    }
+	 finally {
+	      if (image != null) {
+	        image.free();
+	      }
+	      image=null;
+	    }
+	    Timer.delay(.001);
+	  }
+	}
+	 
+	public void refreshTargets(){
+	  try {
+	    ColorImage image=camera.getImage();
+	    BinaryImage thresholdImage=image.thresholdRGB(25,255,0,45,0,47);
+	    BinaryImage bigObjectsImage=thresholdImage.removeSmallObjects(false,2);
+	    BinaryImage convexHullImage=bigObjectsImage.convexHull(false);
+	    BinaryImage filteredImage=convexHullImage.particleFilter(cc);
+	    ParticleAnalysisReport[] reports=filteredImage.getOrderedParticleAnalysisReports();
+	    System.out.println("\n\nFo und " + filteredImage.getNumberParticles() + " boxes");
+	    for (int i=0; i < reports.length; i++) {
+	      ParticleAnalysisReport r=reports[i];
+	      System.out.println("Square: ");
+	      System.out.println("Center x: " + r.center_mass_x);
+	      System.out.println("Center Y: " + r.center_mass_y);
+	      System.out.println("Box Area: " + r.particleArea + " px^2");
+	    }
+	    System.out.println("Match Size: " + filteredImage.getOrderedParticleAnalysisReports(1)[0].particleToImagePercent);
+	    filteredImage.free();
+	    convexHullImage.free();
+	    bigObjectsImage.free();
+	    thresholdImage.free();
+	    image.free();
+	  }
+	 catch (  Exception ex) {
+	  }
+	}
+	 
 
     /**
      * Find the corresponding horiz/vert goal for the passed goal (point), with
