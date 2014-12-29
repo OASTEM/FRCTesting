@@ -13,6 +13,10 @@ import com.sun.squawk.util.MathUtils;
  * Tons of variables. You have been warned.
  * 
  * @author KTOmega
+ *
+ * Going to do some randoms things in here. You have been warned.
+ * @author joyhsu0504
+ *
  */
 public class Point {
     public double rectangularity;
@@ -66,7 +70,6 @@ public class Point {
     }
     
     public double getAspectRatio() {
-        // ???? WHICH VARIABLE IS THE ACTUAL ASPECT RATIO?
         return aspectRatioOuter;
     }
     
@@ -95,7 +98,24 @@ public class Point {
     public static double calculateDistance(Point p1, Point p2) {
         return Math.sqrt(MathUtils.pow(p2.getX() - p1.getX(), 2) + MathUtils.pow(p2.getY() - p1.getY(), 2));
     }
-    
+	public boolean isHigher(Point p1, Point p2) {
+		if(p1.getY() > p2.getY()) {
+			return true;
+		}
+		return false;
+	}	
+	public boolean hasSameHeight(Point p1, Point p2) {
+		if(p1.getY() == p2.getY()) {
+			return true;
+		}
+		return false;
+	}	
+	public boolean distanceAway(Point p1, Point p2, double goal, double errorMargin) {
+		if((this.calculateDistance(p1, p2) >= goal-errorMargin) && (this.calculateDistance(p1, p2) <= goal+errorMargin) ) {
+			return true;
+		}
+		return false;
+	}
     public String toString() {
         return "(" + this.getX() + ", " + this.getY() + ")";
     }
