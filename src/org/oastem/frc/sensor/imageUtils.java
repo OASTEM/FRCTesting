@@ -17,6 +17,9 @@ import org.oastem.frc.assist.RobotMain;
  * Moving all that template NI Vision junk into this new class.
  *
  * @author KTOmega
+ *
+ * Importing colorImage methods for testing
+ * @author joyhsu0504
  */
 public class ImagingUtils {
 
@@ -234,6 +237,7 @@ public class ImagingUtils {
 
 	/** 
 	 * ColorImage- getImage/getTarget/refresh/update
+	 * should filter image and get deets
 	 */
 	public ColorImage getImage() throws AxisCameraException, NIVisionException {
 	  ColorImage image=new HSLImage();
