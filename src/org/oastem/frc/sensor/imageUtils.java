@@ -237,7 +237,8 @@ public class ImagingUtils {
 
 	/** 
 	 * ColorImage- getImage/getTarget/refresh/update
-	 * should filter image and get deets
+	 * should filter image and get details
+	 * http://www.spectrum3847.org/frc2012api/edu/wpi/first/wpilibj/image/ColorImage.html
 	 */
 	public ColorImage getImage() throws AxisCameraException, NIVisionException {
 	  ColorImage image=new HSLImage();
@@ -279,7 +280,7 @@ public class ImagingUtils {
 	  }
 	  Output.queue("[TargetFinder] " + targets.size());
 	}
-	
+	//not sure if Timer.delay would free up the thread or what
 	public Target getTarget() throws NIVisionException, AxisCameraException {
 	  while (true) {
 	    ColorImage image=camera.getImage();
@@ -302,12 +303,13 @@ public class ImagingUtils {
 	public void refreshTargets(){
 	  try {
 	    ColorImage image=camera.getImage();
+	    //thresholdRGB(int redLow, int redHigh, int greenLow, int greenHigh, int blueLow, int blueHigh) yayay
 	    BinaryImage thresholdImage=image.thresholdRGB(25,255,0,45,0,47);
 	    BinaryImage bigObjectsImage=thresholdImage.removeSmallObjects(false,2);
 	    BinaryImage convexHullImage=bigObjectsImage.convexHull(false);
 	    BinaryImage filteredImage=convexHullImage.particleFilter(cc);
 	    ParticleAnalysisReport[] reports=filteredImage.getOrderedParticleAnalysisReports();
-	    System.out.println("\n\nFo und " + filteredImage.getNumberParticles() + " boxes");
+	    System.out.println("\n\nFound " + filteredImage.getNumberParticles() + " boxes");
 	    for (int i=0; i < reports.length; i++) {
 	      ParticleAnalysisReport r=reports[i];
 	      System.out.println("Square: ");
