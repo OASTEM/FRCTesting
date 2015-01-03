@@ -23,12 +23,12 @@ import org.oastem.frc.sensor.*;
  */
 public class RobotMain extends SimpleRobot {
     
-    private DriveSystem ds;
-    private Joystick js, js2;
+    //private DriveSystem ds;
+    //private Joystick js, js2;
     
-    private DigitalInput lim;
+    //private DigitalInput lim;
     
-    private Jaguar motor1;
+    //private Jaguar motor1;
     
     String[] debug = new String[6];
     
@@ -62,7 +62,7 @@ public class RobotMain extends SimpleRobot {
         //ds = DriveSystem.getInstance();
         //ds.initializeDrive(LEFT_DRIVE_PORT, RIGHT_DRIVE_PORT);
         
-        js = new Joystick(FIRST_JOYSTICK);
+        //js = new Joystick(FIRST_JOYSTICK);
         //encoder = new Encoder(ENCODER_PORT_A, ENCODER_PORT_B);
         //gyro = new ADW22307Gyro(GYRO_PORT);
         compress = new Compressor(PRESSURE_SWITCH_CHANNEL, COMP_RELAY_CHANNEL);
@@ -70,7 +70,7 @@ public class RobotMain extends SimpleRobot {
         
        
         
-        motor1 = new Jaguar(JAGUAR_PORT);
+        //motor1 = new Jaguar(JAGUAR_PORT);
         
         Debug.clear();
         Debug.log(1, 1, "Robot initialized.");
@@ -110,7 +110,7 @@ public class RobotMain extends SimpleRobot {
             }
             */
             
-            motor1.set(js.getY());
+            //motor1.set(js.getY());
             //debug[0] = "Rate: " + encoder.getRate();
             //debug[1] = "Angle: " + gyro.getAngle();
             debug[2] = "how to do";
@@ -123,5 +123,10 @@ public class RobotMain extends SimpleRobot {
      */
     public void test() {
     
+    }
+    
+    public void disabled()
+    {
+        
     }
 }
