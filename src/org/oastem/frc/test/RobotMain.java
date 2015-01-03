@@ -24,7 +24,7 @@ import org.oastem.frc.sensor.*;
 public class RobotMain extends SimpleRobot {
     
     //private DriveSystem ds;
-    //private Joystick js, js2;
+    private Joystick js, js2;
     
     //private DigitalInput lim;
     
@@ -50,23 +50,31 @@ public class RobotMain extends SimpleRobot {
     //private Encoder encoder;
     //private ADW22307Gyro gyro;
     private Compressor compress;
+    private DoubleSolenoid solen;
     
     private final int ENCODER_PORT_A = 1;
     private final int ENCODER_PORT_B = 2;
     private final int GYRO_PORT = 3;
     private final int PRESSURE_SWITCH_CHANNEL = 3;
     private final int COMP_RELAY_CHANNEL = 1;
+    private final int SOLEN_FORWARD_CHANNEL = 1;  // FIGURE OUT THE ACTUAL NUMBER
+    private final int SOLEN_BACKWARD_CHANNEL = 2; // FIGURE OUT THE ACTUAL NUMBER
+    
+    private final int SOL_FORWARD_BUTTON = 4;
+    private final int SOL_REVERSE_BUTTON = 5;
+    private final int SOL_OFF_BUTTON = 6;
     
     
     public void robotInit(){
         //ds = DriveSystem.getInstance();
         //ds.initializeDrive(LEFT_DRIVE_PORT, RIGHT_DRIVE_PORT);
         
-        //js = new Joystick(FIRST_JOYSTICK);
+        js = new Joystick(FIRST_JOYSTICK);
         //encoder = new Encoder(ENCODER_PORT_A, ENCODER_PORT_B);
         //gyro = new ADW22307Gyro(GYRO_PORT);
         compress = new Compressor(PRESSURE_SWITCH_CHANNEL, COMP_RELAY_CHANNEL);
         //compress.start();
+        solen = new DoubleSolenoid(SOLEN_FORWARD_CHANNEL, SOLEN_BACKWARD_CHANNEL);
         
        
         
@@ -89,8 +97,31 @@ public class RobotMain extends SimpleRobot {
         compress.start();
         while(isEnabled() && isOperatorControl()){
             currentTime = System.currentTimeMillis();
+            
+            // WE MIGHT HAVE TO GET RID OF THIS. TEST!
+            debug[3] = "pressure switch FALSE";
             if (compress.getPressureSwitchValue())
+            {
                 compress.stop();
+                debug[3] = "pressure switch TRUE";
+            }
+            
+            if (js.getRawButton(SOL_FORWARD_BUTTON))
+            {
+                solen.set(DoubleSolenoid.Value.kForward);
+                debug[4] = "solen FORWARD";
+            }
+            if (js.getRawButton(SOL_REVERSE_BUTTON))
+            {
+                solen.set(DoubleSolenoid.Value.kReverse);
+                debug[4] = "solen REVERSE";
+            }
+            if (js.getRawButton(SOL_OFF_BUTTON))
+            {
+                solen.set(DoubleSolenoid.Value.kOff);
+                debug[4] = "solen OFF";
+            }
+            
             /*debug[1] = "Drive Speed: " + js.getY() + ", " + js2.getY();
             ds.tankDrive(js.getY(), js2.getY());
             
