@@ -45,12 +45,12 @@ public class ImagePoint {
     // 0 => horizontal, 1 => vertical
     private int orientation = INVALID;
     
-    public Point(int label, double x, double y) {
+    public ImagePoint(int label, double x, double y) {
         this(x, y);
         this.setLabel(label);
     }
     
-    public Point(double x, double y) {
+    public ImagePoint(double x, double y) {
         this.x = x;
         this.y = y;
     }
@@ -95,22 +95,22 @@ public class ImagePoint {
     public boolean isHot() { return hot; }
     public void setHot(boolean orNot) { this.hot = orNot; }
     
-    public static double calculateDistance(Point p1, Point p2) {
+    public static double calculateDistance(ImagePoint p1, ImagePoint p2) {
         return Math.sqrt(MathUtils.pow(p2.getX() - p1.getX(), 2) + MathUtils.pow(p2.getY() - p1.getY(), 2));
     }
-	public boolean isHigher(Point p1, Point p2) {
+	public boolean isHigher(ImagePoint p1, ImagePoint p2) {
 		if(p1.getY() > p2.getY()) {
 			return true;
 		}
 		return false;
 	}	
-	public boolean hasSameHeight(Point p1, Point p2) {
+	public boolean hasSameHeight(ImagePoint p1, ImagePoint p2) {
 		if(p1.getY() == p2.getY()) {
 			return true;
 		}
 		return false;
 	}	
-	public boolean distanceAway(Point p1, Point p2, double goal, double errorMargin) {
+	public boolean distanceAway(ImagePoint p1, ImagePoint p2, double goal, double errorMargin) {
 		if((this.calculateDistance(p1, p2) >= goal-errorMargin) && (this.calculateDistance(p1, p2) <= goal+errorMargin) ) {
 			return true;
 		}
