@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.image.ColorImage;
 import edu.wpi.first.wpilibj.image.ParticleAnalysisReport;
 
 public class ImageProcessor {
-    private void imageProcessing() {
+    /*private void imageProcessing() {
         try {
             // 43:32
             //ColorImage image = camera.getImage();     // comment if using stored images
@@ -98,7 +98,7 @@ public class ImageProcessor {
                  * System.out.println("particle: " + i + "is not a goal centerX:
                  * " + report.center_mass_x_normalized + "centerY: " +
                  * report.center_mass_y_normalized); }
-                 */
+                
                 //System.out.println("rect: " + scores[i].rectangularity + "ARinner: " + scores[i].aspectRatioInner);
                 //System.out.println("ARouter: " + scores[i].aspectRatioOuter + "xEdge: " + scores[i].xEdge + "yEdge: " + scores[i].yEdge);	
             }
@@ -129,7 +129,7 @@ public class ImageProcessor {
              * all images in Java must be freed after they are used since they
              * are allocated out of C data structures. Not calling free() will
              * cause the memory to accumulate over each pass of this loop.
-             */
+             //
             filteredImage.free();
             convexHullImage.free();
             thresholdImage.free();
@@ -139,5 +139,5 @@ public class ImageProcessor {
             ex.printStackTrace();
         }
         lastUpdate = System.currentTimeMillis();
-    }
+    }*/
 }

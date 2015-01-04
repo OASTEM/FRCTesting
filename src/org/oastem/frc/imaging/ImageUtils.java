@@ -5,13 +5,14 @@
 package org.oastem.frc.imaging;
 
 import com.sun.squawk.util.MathUtils;
+import edu.wpi.first.wpilibj.camera.AxisCameraException;
 import edu.wpi.first.wpilibj.image.BinaryImage;
 import edu.wpi.first.wpilibj.image.LinearAverages;
 import edu.wpi.first.wpilibj.image.NIVision;
 import edu.wpi.first.wpilibj.image.NIVisionException;
 import edu.wpi.first.wpilibj.image.ParticleAnalysisReport;
 import edu.wpi.first.wpilibj.image.ColorImage;
-import org.oastem.frc.assist.RobotMain;
+import edu.wpi.first.wpilibj.image.HSLImage;
 
 /**
  * Moving all that template NI Vision junk into this new class.
@@ -115,7 +116,7 @@ public class ImageUtils {
      *
      * @return True if the particle meets all limits, false otherwise
      */
-    public static boolean scoreCompare(Point scores, boolean outer) {
+    public static boolean scoreCompare(ImagePoint scores, boolean outer) {
         boolean isTarget = true;
 
         isTarget &= scores.rectangularity > RECTANGULARITY_LIMIT;
@@ -242,21 +243,21 @@ public class ImageUtils {
 	 */
 	public ColorImage getImage() throws AxisCameraException, NIVisionException {
 	  ColorImage image=new HSLImage();
-	  if (getImageFn.call1(image.image) == 0) {
+	  if (true) {//getImageFn.call1(image.image) == 0) {
 	    image.free();
 	    throw new AxisCameraException("No image available");
 	  }
 	  return image;
 	}
 	
-	public void update(ColorImage image){
+	/*public void update(ColorImage image){
 	  BinaryImage masked;
 	  BinaryImage hulled;
 	  BinaryImage filtered;
 	  ParticleAnalysisReport[] all;
-	  targets.removeAllElements();
+	  //targets.removeAllElements();
 	  try {
-	    masked=image.thresholdRGB(redLow,redHigh,greenLow,greenHigh,blueLow,blueHigh);
+	    //masked=image.thresholdRGB(redLow,redHigh,greenLow,greenHigh,blueLow,blueHigh);
 	    hulled=masked.convexHull(true);
 	    filtered=hulled.removeSmallObjects(true,2);
 	    all=filtered.getOrderedParticleAnalysisReports(10);
@@ -326,15 +327,15 @@ public class ImageUtils {
 	  }
 	 catch (  Exception ex) {
 	  }
-	}
+	}*/
 	 
 
     /**
      * Find the corresponding horiz/vert goal for the passed goal (point), with
      * aspect ratio aspect. Returns the index of the corresponding point.
      */
-    public static int findCorrespondingGoal(Point[] points, int point, double aspect) {
-        Point thePoint = points[point];
+    public static int findCorrespondingGoal(ImagePoint[] points, int point, double aspect) {
+        ImagePoint thePoint = points[point];
         double correspondingAspect = aspect == HORIZONTAL_ASPECT
                 ? VERTICAL_ASPECT : HORIZONTAL_ASPECT;
 
@@ -344,11 +345,11 @@ public class ImageUtils {
             if (i == point) {
                 continue;
             }
-            Point curGoal = points[i];
+            ImagePoint curGoal = points[i];
             if (curGoal.isMarked()) {
                 continue;
             }
-            double distance = Point.calculateDistance(curGoal, thePoint);
+            double distance = ImagePoint.calculateDistance(curGoal, thePoint);
 
             if (curGoal.hasAspect(correspondingAspect, ASPECT_RANGE)
                     && distance < leastDistance) {
@@ -365,24 +366,24 @@ public class ImageUtils {
         return leastIndex;
     }
 
-    public static void determineGoals(Point[] points) {
+    public static void determineGoals(ImagePoint[] points) {
         boolean markedLeft = false;
         boolean markedRight = false;
         int leftCount = 0;
         int rightCount = 0;
         for (int i = 0; i < points.length; i++) {
-            Point curGoal = points[i];
+            ImagePoint curGoal = points[i];
             double aspect = curGoal.getAspectRatio();
             boolean isHoriz = curGoal.hasAspect(HORIZONTAL_ASPECT, ASPECT_RANGE);
             
-            curGoal.setOrientation(isHoriz ? Point.HORIZONTAL : Point.VERTICAL);
+            curGoal.setOrientation(isHoriz ? ImagePoint.HORIZONTAL : ImagePoint.VERTICAL);
 
-            int correspIndex = ImagingUtils.findCorrespondingGoal(points, i,
+            int correspIndex = ImageUtils.findCorrespondingGoal(points, i,
                     isHoriz ? HORIZONTAL_ASPECT : VERTICAL_ASPECT);
 
             //System.out.print(curGoal + " (" + (isHoriz ? "Horiz" : "Vert") + ") => ");
             if (correspIndex != -1) {
-                Point correspGoal = points[correspIndex];
+                ImagePoint correspGoal = points[correspIndex];
                 
                 if (isHoriz) {
                     correspGoal.setHot(true);
@@ -395,25 +396,25 @@ public class ImageUtils {
 
                 if (isHoriz) {
                     if (correspGoal.getX() > curGoal.getX()) {
-                        curGoal.setSide(Point.LEFT);
-                        correspGoal.setSide(Point.LEFT);
+                        curGoal.setSide(ImagePoint.LEFT);
+                        correspGoal.setSide(ImagePoint.LEFT);
                         markedLeft = true;
                         leftCount++;
                     } else {
-                        curGoal.setSide(Point.RIGHT);
-                        correspGoal.setSide(Point.RIGHT);
+                        curGoal.setSide(ImagePoint.RIGHT);
+                        correspGoal.setSide(ImagePoint.RIGHT);
                         markedRight = true;
                         rightCount++;
                     }
                 } else {
                     if (correspGoal.getX() > curGoal.getX()) {
-                        curGoal.setSide(Point.RIGHT);
-                        correspGoal.setSide(Point.RIGHT);
+                        curGoal.setSide(ImagePoint.RIGHT);
+                        correspGoal.setSide(ImagePoint.RIGHT);
                         markedRight = true;
                         rightCount++;
                     } else {
-                        curGoal.setSide(Point.LEFT);
-                        correspGoal.setSide(Point.LEFT);
+                        curGoal.setSide(ImagePoint.LEFT);
+                        correspGoal.setSide(ImagePoint.LEFT);
                         markedLeft = true;
                         leftCount++;
                     }
@@ -423,21 +424,21 @@ public class ImageUtils {
                 curGoal.setHot(false);
                 if (markedLeft) {
                     // current goal must be orphaned right
-                    curGoal.setSide(Point.RIGHT);
+                    curGoal.setSide(ImagePoint.RIGHT);
                 } else if (markedRight) {
-                    curGoal.setSide(Point.LEFT);
+                    curGoal.setSide(ImagePoint.LEFT);
                 } else if (points.length == 2) {
                     if (i == 0) {
                         if (points[0].getX() > points[1].getX()) {
-                            curGoal.setSide(Point.RIGHT);
-                            points[1].setSide(Point.LEFT);
+                            curGoal.setSide(ImagePoint.RIGHT);
+                            points[1].setSide(ImagePoint.LEFT);
                         } else {
-                            curGoal.setSide(Point.LEFT);
-                            points[1].setSide(Point.RIGHT);
+                            curGoal.setSide(ImagePoint.LEFT);
+                            points[1].setSide(ImagePoint.RIGHT);
                         }
                     }
                 } else {
-                    curGoal.setSide(Point.INVALID);
+                    curGoal.setSide(ImagePoint.INVALID);
                 }
             }
         }
