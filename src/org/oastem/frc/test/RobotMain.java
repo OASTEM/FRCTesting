@@ -48,14 +48,14 @@ public class RobotMain extends SimpleRobot {
     private final int RUN_TIME = 5000;
     
     //private Encoder encoder;
-    //private ADW22307Gyro gyro;
+    private ADW22307Gyro gyro;
     private Compressor compress;
     private DoubleSolenoid solen;
     private Relay rel;
     
     private final int ENCODER_PORT_A = 1;
     private final int ENCODER_PORT_B = 2;
-    private final int GYRO_PORT = 3;
+    private final int GYRO_PORT = 1;
     private final int PRESSURE_SWITCH_CHANNEL = 3;
     private final int COMP_RELAY_CHANNEL = 1;
     private final int SOLEN_FORWARD_CHANNEL = 1;  // FIGURE OUT THE ACTUAL NUMBER
@@ -72,9 +72,9 @@ public class RobotMain extends SimpleRobot {
         
         js = new Joystick(FIRST_JOYSTICK);
         //encoder = new Encoder(ENCODER_PORT_A, ENCODER_PORT_B);
-        //gyro = new ADW22307Gyro(GYRO_PORT);
+        gyro = new ADW22307Gyro(GYRO_PORT);
         compress = new Compressor(PRESSURE_SWITCH_CHANNEL, COMP_RELAY_CHANNEL);
-        compress.start();
+        //compress.start();
         solen = new DoubleSolenoid(SOLEN_FORWARD_CHANNEL, SOLEN_BACKWARD_CHANNEL);
         
         
@@ -98,6 +98,7 @@ public class RobotMain extends SimpleRobot {
         boolean motorStart = false;
         
         while(isEnabled() && isOperatorControl()){
+            
             currentTime = System.currentTimeMillis();
             
             
@@ -142,9 +143,8 @@ public class RobotMain extends SimpleRobot {
             
             //motor1.set(js.getY());
             //debug[0] = "Rate: " + encoder.getRate();
-            //debug[1] = "Angle: " + gyro.getAngle();
+            debug[1] = "Angle: " + gyro.getAngle();
             debug[2] = "how to do";
-            System.out.println(debug[4]);
             Debug.log(debug);
         }
     }
