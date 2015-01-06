@@ -73,10 +73,9 @@ public class RobotMain extends SimpleRobot {
         js = new Joystick(FIRST_JOYSTICK);
         //encoder = new Encoder(ENCODER_PORT_A, ENCODER_PORT_B);
         //gyro = new ADW22307Gyro(GYRO_PORT);
-        //compress = new Compressor(PRESSURE_SWITCH_CHANNEL, COMP_RELAY_CHANNEL);
-        //compress.start();
+        compress = new Compressor(PRESSURE_SWITCH_CHANNEL, COMP_RELAY_CHANNEL);
+        compress.start();
         solen = new DoubleSolenoid(SOLEN_FORWARD_CHANNEL, SOLEN_BACKWARD_CHANNEL);
-        rel = new Relay(1);
         
         
        
@@ -100,15 +99,10 @@ public class RobotMain extends SimpleRobot {
         
         while(isEnabled() && isOperatorControl()){
             currentTime = System.currentTimeMillis();
-            rel.set(Relay.Value.kOn);
-            // WE MIGHT HAVE TO GET RID OF THIS. TEST!
-            debug[3] = "pressure switch FALSE";
-            //if (compress.getPressureSwitchValue())
-            //{
-                //compress.stop();
-                //rel.set(Relay.Value.kOff);
-                //debug[3] = "pressure switch TRUE";
-            //}
+            
+            
+            
+            
             
             
             if (js.getRawButton(SOL_FORWARD_BUTTON))
@@ -116,12 +110,12 @@ public class RobotMain extends SimpleRobot {
                 solen.set(DoubleSolenoid.Value.kForward);
                 debug[4] = "solen FORWARD";
             }
-            if (js.getRawButton(SOL_REVERSE_BUTTON))
+            else if (js.getRawButton(SOL_REVERSE_BUTTON))
             {
                 solen.set(DoubleSolenoid.Value.kReverse);
                 debug[4] = "solen REVERSE";
             }
-            if (js.getRawButton(SOL_OFF_BUTTON))
+            else
             {
                 solen.set(DoubleSolenoid.Value.kOff);
                 debug[4] = "solen OFF";
@@ -150,7 +144,6 @@ public class RobotMain extends SimpleRobot {
             //debug[0] = "Rate: " + encoder.getRate();
             //debug[1] = "Angle: " + gyro.getAngle();
             debug[2] = "how to do";
-            System.out.println(debug[3]);
             System.out.println(debug[4]);
             Debug.log(debug);
         }
