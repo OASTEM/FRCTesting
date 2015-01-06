@@ -7,6 +7,7 @@ Autonomous mode
 - Sets of totes
 - Sets of can
 - Sets of totes stacked
+- Aid other teams if needed
 
 The FRC code for Oxford Academy STEM's Quantum Leap (Team 4079) team. Maintained year-round.
 
