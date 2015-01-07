@@ -46,8 +46,7 @@ public class RobotMain extends SimpleRobot {
     private final int RF_MOTOR = 3;
     private final int RB_MOTOR = 4;
     
-    
-    //private Encoder encoder;
+    /*
     private ADW22307Gyro gyro;
     private Compressor compress;
     private DoubleSolenoid solen;
@@ -62,7 +61,7 @@ public class RobotMain extends SimpleRobot {
     
     private final int SOL_FORWARD_BUTTON = 4;
     private final int SOL_REVERSE_BUTTON = 5;
-    
+    //*/
     
     public void robotInit(){
         ds = DriveSystem.getInstance();
@@ -75,12 +74,12 @@ public class RobotMain extends SimpleRobot {
         motor4 = new Jaguar(RB_MOTOR);
         
         js = new Joystick(JOYSTICK);
-        //encoder = new Encoder(ENCODER_PORT_A, ENCODER_PORT_B);
+        /*
         gyro = new ADW22307Gyro(GYRO_PORT);
         compress = new Compressor(PRESSURE_SWITCH_CHANNEL, COMP_RELAY_CHANNEL);
         //compress.start();
         solen = new DoubleSolenoid(SOLEN_FORWARD_CHANNEL, SOLEN_BACKWARD_CHANNEL);
-        
+        //*/
         
         Debug.clear();
         Debug.log(1, 1, "Robot initialized.");
@@ -103,7 +102,7 @@ public class RobotMain extends SimpleRobot {
             debug[0] = "Drive Speed: " + js.getY();
             ds.mecanumDrive(js.getX(), js.getY(), js.getZ(), gyro.getAngle());
             
-            
+            /*
             if (js.getRawButton(SOL_FORWARD_BUTTON))
             {
                 solen.set(DoubleSolenoid.Value.kForward);
@@ -119,7 +118,7 @@ public class RobotMain extends SimpleRobot {
                 solen.set(DoubleSolenoid.Value.kOff);
                 debug[1] = "solen OFF";
             }
-
+            //*/
 
             Debug.log(debug);
         }
