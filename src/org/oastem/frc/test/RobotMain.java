@@ -46,14 +46,16 @@ public class RobotMain extends SimpleRobot {
     private final int RF_MOTOR = 3;
     private final int RB_MOTOR = 4;
     
-    /*
+    
     private ADW22307Gyro gyro;
+    /*
     private Compressor compress;
     private DoubleSolenoid solen;
     private Relay rel;
-    
+    //*/
     
     private final int GYRO_PORT = 1;
+    /*
     private final int PRESSURE_SWITCH_CHANNEL = 3;
     private final int COMP_RELAY_CHANNEL = 1;
     private final int SOLEN_FORWARD_CHANNEL = 1;  // FIGURE OUT THE ACTUAL NUMBER
@@ -74,8 +76,9 @@ public class RobotMain extends SimpleRobot {
         motor4 = new Jaguar(RB_MOTOR);
         
         js = new Joystick(JOYSTICK);
-        /*
+        
         gyro = new ADW22307Gyro(GYRO_PORT);
+        /*
         compress = new Compressor(PRESSURE_SWITCH_CHANNEL, COMP_RELAY_CHANNEL);
         //compress.start();
         solen = new DoubleSolenoid(SOLEN_FORWARD_CHANNEL, SOLEN_BACKWARD_CHANNEL);
