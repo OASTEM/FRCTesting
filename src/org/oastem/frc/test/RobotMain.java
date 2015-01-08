@@ -60,6 +60,9 @@ public class RobotMain extends SimpleRobot {
     private final int SOL_REVERSE_BUTTON = 5;
     //*/
     
+    private Jaguar motor1;
+    private final int ENCODER_MOTOR_PORT = 4;
+    
     public void robotInit(){
         /*ds = DriveSystem.getInstance();
         ds.initializeDrive(LEFT_FRONT_DRIVE_PORT, LEFT_BACK_DRIVE_PORT, 
@@ -70,6 +73,9 @@ public class RobotMain extends SimpleRobot {
         motor3 = new Jaguar(RIGHT_FRONT_DRIVE_PORT);
         motor4 = new Jaguar(RIGHT_BACK_DRIVE_PORT);
         */
+        
+       // motor1 = new Jaguar (ENCODER_MOTOR_PORT);
+        
         js = new Joystick(JOYSTICK);
         
         gyro = new ADW22307Gyro(GYRO_PORT);

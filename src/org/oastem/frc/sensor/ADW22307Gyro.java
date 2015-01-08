@@ -14,14 +14,14 @@ import edu.wpi.first.wpilibj.Gyro;
  */
 public class ADW22307Gyro {
     private Gyro g;
-    //private static final double DRIFT_PER_SECOND = 0.014578491443051003;
-    private static final double DRIFT_PER_SECOND = 0.048;
+    private static final double DRIFT_PER_SECOND = 0.014578491443051003;
+    //private static final double DRIFT_PER_SECOND = 0.048;
     private long lastUpdateTime = 0;
     
     public ADW22307Gyro(int port) {
         g = new Gyro(port);
         lastUpdateTime = System.currentTimeMillis();
-        g.setSensitivity(7000);
+        //g.setSensitivity(7000);
         initialize();
     }
     
