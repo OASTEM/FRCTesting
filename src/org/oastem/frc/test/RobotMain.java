@@ -41,6 +41,7 @@ public class RobotMain extends SimpleRobot {
     private final int JOYSTICK = 1; 
     
     
+<<<<<<< HEAD
     private final int LF_MOTOR = 1;
     private final int LB_MOTOR = 2;
     private final int RF_MOTOR = 3;
@@ -48,6 +49,8 @@ public class RobotMain extends SimpleRobot {
     
     private final int ENCODER_CH_A = 14;
     private final int ENCODER_CH_B = 13;
+=======
+>>>>>>> adc6ee479c33bb4ed32fb20b3b6cc99c614ad458
     
     private Encoder encoder;
     private ADW22307Gyro gyro;
@@ -69,15 +72,15 @@ public class RobotMain extends SimpleRobot {
     //*/
     
     public void robotInit(){
-        ds = DriveSystem.getInstance();
+        /*ds = DriveSystem.getInstance();
         ds.initializeDrive(LEFT_FRONT_DRIVE_PORT, LEFT_BACK_DRIVE_PORT, 
                 RIGHT_FRONT_DRIVE_PORT, RIGHT_BACK_DRIVE_PORT);
         
-        motor1 = new Jaguar(LF_MOTOR);
-        motor2 = new Jaguar(LB_MOTOR);
-        motor3 = new Jaguar(RF_MOTOR);
-        motor4 = new Jaguar(RB_MOTOR);
-        
+        motor1 = new Jaguar(LEFT_FRONT_DRIVE_PORT);
+        motor2 = new Jaguar(LEFT_BACK_DRIVE_PORT);
+        motor3 = new Jaguar(RIGHT_FRONT_DRIVE_PORT);
+        motor4 = new Jaguar(RIGHT_BACK_DRIVE_PORT);
+        */
         js = new Joystick(JOYSTICK);
         
         encoder = new Encoder(ENCODER_CH_A, ENCODER_CH_B);
@@ -109,6 +112,7 @@ public class RobotMain extends SimpleRobot {
             currentTime = System.currentTimeMillis();
             //debug[0] = "Drive Speed: " + js.getY();
             //ds.mecanumDrive(js.getX(), js.getY(), js.getZ(), gyro.getAngle());
+<<<<<<< HEAD
             
             
             
@@ -130,6 +134,8 @@ public class RobotMain extends SimpleRobot {
             
             
             
+=======
+>>>>>>> adc6ee479c33bb4ed32fb20b3b6cc99c614ad458
             
             /*
             if (js.getRawButton(SOL_FORWARD_BUTTON))
@@ -149,6 +155,7 @@ public class RobotMain extends SimpleRobot {
             }
             //*/
 
+            debug[1] = "Gyro: " + gyro.getAngle();
             Debug.log(debug);
         }
     }
