@@ -43,6 +43,7 @@ public class RobotMain extends SimpleRobot {
       
     private final int ENCODER_CH_A = 14;
     private final int ENCODER_CH_B = 13;
+    private final int ENC_JAG_PORT = 2;
 
     
     private Encoder encoder;
@@ -75,7 +76,7 @@ public class RobotMain extends SimpleRobot {
         motor4 = new Jaguar(RIGHT_BACK_DRIVE_PORT);
         */
         js = new Joystick(JOYSTICK);
-        motor1 = new Jaguar(1);
+        motor1 = new Jaguar(ENC_JAG_PORT);
         
         encoder = new Encoder(ENCODER_CH_A, ENCODER_CH_B);
         //encoder = new Encoder(ENCODER_CH_A, ENCODER_CH_B, false, CounterBase.EncodingType.k2X);
