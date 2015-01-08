@@ -46,7 +46,10 @@ public class RobotMain extends SimpleRobot {
     private final int RF_MOTOR = 3;
     private final int RB_MOTOR = 4;
     
+    private final int ENCODER_CH_A = 14;
+    private final int ENCODER_CH_B = 13;
     
+    private Encoder encoder;
     private ADW22307Gyro gyro;
     /*
     private Compressor compress;
@@ -77,6 +80,8 @@ public class RobotMain extends SimpleRobot {
         
         js = new Joystick(JOYSTICK);
         
+        encoder = new Encoder(ENCODER_CH_A, ENCODER_CH_B);
+        
         gyro = new ADW22307Gyro(GYRO_PORT);
         /*
         compress = new Compressor(PRESSURE_SWITCH_CHANNEL, COMP_RELAY_CHANNEL);
@@ -102,8 +107,29 @@ public class RobotMain extends SimpleRobot {
         while(isEnabled() && isOperatorControl()){
             
             currentTime = System.currentTimeMillis();
-            debug[0] = "Drive Speed: " + js.getY();
-            ds.mecanumDrive(js.getX(), js.getY(), js.getZ(), gyro.getAngle());
+            //debug[0] = "Drive Speed: " + js.getY();
+            //ds.mecanumDrive(js.getX(), js.getY(), js.getZ(), gyro.getAngle());
+            
+            
+            
+            // OUTPUT
+            debug[0] = "Enc: " + encoder.get();
+            
+            // REVERSE DIRECTION
+            //encoder.
+            
+            // GET DIRECTION
+            
+            // get VS getRaw
+            
+            // distancePerPulse
+            
+            // getRate
+            
+            // encodingScale
+            
+            
+            
             
             /*
             if (js.getRawButton(SOL_FORWARD_BUTTON))
