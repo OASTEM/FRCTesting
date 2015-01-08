@@ -1,5 +1,7 @@
-MIDlet-Name: 2014AscentRedux
+MIDlet-Name: MecanumWheelTesting
 MIDlet-Version: 1.0.0
 MIDlet-Vendor: FIRST
+MIDlet-1: RobotMain, , org.oastem.frc.test.RobotMain
 MicroEdition-Profile: IMP-1.0
 MicroEdition-Configuration: CLDC-1.1
+
