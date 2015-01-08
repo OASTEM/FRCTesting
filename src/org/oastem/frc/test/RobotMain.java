@@ -40,17 +40,10 @@ public class RobotMain extends SimpleRobot {
     
     private final int JOYSTICK = 1; 
     
-    
-<<<<<<< HEAD
-    private final int LF_MOTOR = 1;
-    private final int LB_MOTOR = 2;
-    private final int RF_MOTOR = 3;
-    private final int RB_MOTOR = 4;
-    
+      
     private final int ENCODER_CH_A = 14;
     private final int ENCODER_CH_B = 13;
-=======
->>>>>>> adc6ee479c33bb4ed32fb20b3b6cc99c614ad458
+
     
     private Encoder encoder;
     private ADW22307Gyro gyro;
@@ -82,8 +75,10 @@ public class RobotMain extends SimpleRobot {
         motor4 = new Jaguar(RIGHT_BACK_DRIVE_PORT);
         */
         js = new Joystick(JOYSTICK);
+        motor1 = new Jaguar(1);
         
         encoder = new Encoder(ENCODER_CH_A, ENCODER_CH_B);
+        //encoder = new Encoder(ENCODER_CH_A, ENCODER_CH_B, false, CounterBase.EncodingType.k2X);
         
         gyro = new ADW22307Gyro(GYRO_PORT);
         /*
@@ -107,35 +102,58 @@ public class RobotMain extends SimpleRobot {
         long startTime = 0;
         boolean motorStart = false;
         
+        //encoder.setDistancePerPulse(100);
+        
         while(isEnabled() && isOperatorControl()){
             
             currentTime = System.currentTimeMillis();
             //debug[0] = "Drive Speed: " + js.getY();
             //ds.mecanumDrive(js.getX(), js.getY(), js.getZ(), gyro.getAngle());
-<<<<<<< HEAD
-            
+            motor1.set(js.getY());
             
             
             // OUTPUT
             debug[0] = "Enc: " + encoder.get();
             
+            
             // REVERSE DIRECTION
-            //encoder.
+            //activate/deactivate reverse direction
+            /*if (js.getRawButton(8))
+            {
+                if (encoder.getDirection() == false)
+                    encoder.setReverseDirection(true);
+                else
+                    encoder.setReverseDirection(false);
+            }//*/
+            
             
             // GET DIRECTION
+            /*if (encoder.getDirection() == true)
+                debug[2] = "Direction true";
+            else
+                debug[2] = "Direction false";
+            //*/
+            
             
             // get VS getRaw
+            //debug[1] = "rawEnc: " + encoder.getRaw();
+            
             
             // distancePerPulse
+            //ACTIVATE LINE AT TOP OF METHOD
+            //debug[3] = "Distance: " + encoder.getDistance();
+            
             
             // getRate
+            //debug[4] = "Rate: " + encoder.getRate();
+            
             
             // encodingScale
+            //ACTIVATE LINE AT INIT
+            //look at how enc.get() is different
+            //also compare with getRaw()
             
             
-            
-=======
->>>>>>> adc6ee479c33bb4ed32fb20b3b6cc99c614ad458
             
             /*
             if (js.getRawButton(SOL_FORWARD_BUTTON))
@@ -155,7 +173,7 @@ public class RobotMain extends SimpleRobot {
             }
             //*/
 
-            debug[1] = "Gyro: " + gyro.getAngle();
+            //debug[1] = "Gyro: " + gyro.getAngle();
             Debug.log(debug);
         }
     }
