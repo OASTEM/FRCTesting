@@ -60,8 +60,6 @@ public class RobotMain extends SimpleRobot {
     private final int SOL_REVERSE_BUTTON = 5;
     //*/
     
-    private Jaguar motor1;
-    private final int ENCODER_MOTOR_PORT = 4;
     
     public void robotInit(){
         /*ds = DriveSystem.getInstance();
