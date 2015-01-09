@@ -75,10 +75,11 @@ public class RobotMain extends SimpleRobot {
         motor4 = new Jaguar(RIGHT_BACK_DRIVE_PORT);
         */
         js = new Joystick(JOYSTICK);
-        motor1 = new Jaguar(1);
+        motor1 = new Jaguar(2);
         
         encoder = new Encoder(ENCODER_CH_A, ENCODER_CH_B);
         //encoder = new Encoder(ENCODER_CH_A, ENCODER_CH_B, false, CounterBase.EncodingType.k2X);
+        encoder.start();
         
         gyro = new ADW22307Gyro(GYRO_PORT);
         /*
@@ -103,7 +104,7 @@ public class RobotMain extends SimpleRobot {
         boolean motorStart = false;
         
         //encoder.setDistancePerPulse(100);
-        
+        Debug.clear();
         while(isEnabled() && isOperatorControl()){
             
             currentTime = System.currentTimeMillis();
@@ -118,7 +119,7 @@ public class RobotMain extends SimpleRobot {
             
             // REVERSE DIRECTION
             //activate/deactivate reverse direction
-            /*if (js.getRawButton(8))
+            if (js.getRawButton(8))
             {
                 if (encoder.getDirection() == false)
                     encoder.setReverseDirection(true);
@@ -128,7 +129,7 @@ public class RobotMain extends SimpleRobot {
             
             
             // GET DIRECTION
-            /*if (encoder.getDirection() == true)
+            if (encoder.getDirection() == true)
                 debug[2] = "Direction true";
             else
                 debug[2] = "Direction false";
