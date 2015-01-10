@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj.Gyro;
  */
 public class ADW22307Gyro {
     private Gyro g;
-    private static final double DRIFT_PER_SECOND = 0.014578491443051003;
+    private static final double DRIFT_PER_SECOND = 2.2348147200282*60;
     //private static final double DRIFT_PER_SECOND = 0.048;
     private long lastUpdateTime = 0;
     
@@ -34,7 +34,7 @@ public class ADW22307Gyro {
     /*public double getAngle()
     {
         return g.getAngle();
-    }*/
+    }//*/
     
     public double getAngle() {
         long currentTime = System.currentTimeMillis();
@@ -44,5 +44,5 @@ public class ADW22307Gyro {
         lastUpdateTime = currentTime;
         
         return value;
-    }
+    }//*/
 }
