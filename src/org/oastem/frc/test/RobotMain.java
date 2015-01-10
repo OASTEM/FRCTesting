@@ -80,8 +80,8 @@ public class RobotMain extends SimpleRobot {
         motor1 = new Jaguar(ENC_JAG_PORT);
 
         
-        encoder = new Encoder(ENCODER_CH_A, ENCODER_CH_B);
-        //encoder = new Encoder(ENCODER_CH_A, ENCODER_CH_B, false, CounterBase.EncodingType.k2X);
+        //encoder = new Encoder(ENCODER_CH_A, ENCODER_CH_B);
+        encoder = new Encoder(ENCODER_CH_A, ENCODER_CH_B, false, CounterBase.EncodingType.k2X);
         encoder.start();
         
         gyro = new ADW22307Gyro(GYRO_PORT);
@@ -109,7 +109,7 @@ public class RobotMain extends SimpleRobot {
         //encoder.setDistancePerPulse(100);
         Debug.clear();
         while(isEnabled() && isOperatorControl()){
-            
+            Debug.clear();
             currentTime = System.currentTimeMillis();
             //debug[0] = "Drive Speed: " + js.getY();
             //ds.mecanumDrive(js.getX(), js.getY(), js.getZ(), gyro.getAngle());
@@ -120,18 +120,8 @@ public class RobotMain extends SimpleRobot {
             debug[0] = "Enc: " + encoder.get();
             
             
-            // REVERSE DIRECTION
-            //activate/deactivate reverse direction
-            if (js.getRawButton(8))
-            {
-                if (encoder.getDirection() == false)
-                    encoder.setReverseDirection(true);
-                else
-                    encoder.setReverseDirection(false);
-            }//*/
             
-            
-            // GET DIRECTION
+            /*// GET DIRECTION
             if (encoder.getDirection() == true)
                 debug[2] = "Direction true";
             else
@@ -140,7 +130,7 @@ public class RobotMain extends SimpleRobot {
             
             
             // get VS getRaw
-            //debug[1] = "rawEnc: " + encoder.getRaw();
+            debug[1] = "rawEnc: " + encoder.getRaw();
             
             
             // distancePerPulse
