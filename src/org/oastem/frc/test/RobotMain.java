@@ -86,8 +86,129 @@ public class RobotMain extends SimpleRobot {
         Debug.log(1, 1, "Robot initialized.");
     }
     
-    
-    
+    /*
+	*This is autonomous pseudocode and it should hopefully logically work <3
+	*
+	
+	public static final int START = 0;
+	public static final int GOTO_TOTE = 1;
+	public static final int UPLIFT = 2;
+	public static final int RESET = 3;
+	public static final int MOVETO_AUTO = 4;
+	public static final int RELEASE = 5;
+	//public static final int READY = 6;
+	
+	private int state;
+	private int resetCount;
+	private long currTime = 0L;
+	private long triggerStart = 0L;
+	
+	public void autonomous() {
+		debug[0] = "Autonomous mode enabled";
+		while(isAutonomous() && isEnabled()) {
+			imageProcessing();
+			currTime = System.currentTimeMillis();
+			joytonomousStates(currTime); //not sure if this should be here
+		}
+		Debug.log(debug);
+	}
+	
+	private void joytonomousStates(long currTime) {
+		switch(state) {
+			case START:
+				//anything we need to go beforehand
+				break;
+			case GOTO_TOTE:
+				if(moveForward(currTime, triggerStart)) {
+					triggerStart = currTime;
+					state = UPLIFT;
+				}
+				break;
+			case UPLIFT:
+				if(resetCount < 3) {
+					if(hookUp(currTime, triggerStart)) {
+						triggerStart = currTime;
+						state = MOVETO_AUTO;
+					} else {
+						state = RESET; //count attempts
+						resetCount++;
+					}
+				}
+				break;
+			case RESET:
+				if(redo(currTime, triggerStart)) {
+					triggerStart = currTime;
+					state = UPLIFT;
+				}
+				break;
+			case MOVETO_AUTO;
+				if(moveAuto(currTime, triggerStart)) {
+					triggerStart = currTime;
+					state = RELEASE;
+				} else {
+					state = READY;
+				}
+				break;
+			case RELEASE:
+				if(releaseTote(currTime, triggerStart)) {
+					triggerStart = 0;
+					state = READY;
+				}
+			case READY:
+				//how we want to get ready for operator control
+			default: 
+				//what to do if something fails
+				break; //kys
+		}
+	}
+	
+	private boolean moveForward(long currTime, long triggerStart) {
+		if(!robot.drive(distanceToTote) || currTime - triggerStart > 1500L) { //lol this isn't a method but should return T/F 
+			return false;
+		} else {
+			return true;
+		}
+	}
+	
+	private boolean hookUp(long currTime, long triggerStart) {
+		hook.upToTote(); //lol I wish this were already a method
+		if(!checkHooked() || currTime - triggerStart > 2000L ) { //however long it takes to hook the tote
+			return false;
+		} else {
+			return true;
+		}
+	}
+	
+	private boolean redo(long currTime, long triggerStart) {
+		hook.downToUnhook();
+		robot.drive(justSmallDistanceToReposition);
+		if (!robot.drive(justSmallDistanceToReposition) || currTime - triggerStart > 1000L) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+	
+	private boolean moveAuto(long currTime, long triggerStart) {
+		robot.drive(distanceToAuto);
+		if(!robot.drive(distanceToAuto) || !checkHooked() || currTime-triggerStart > 5000L) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+	
+	private boolean releaseTote(long currTime, long triggerStart) {
+		hook.downToUnhook();
+		if(checkHooked() || currTime - triggerStart > 1500L) {
+			return false;
+		} else {
+			robot.reverse(justSmallDistanceToReposition);
+			return true;
+		}
+	}
+	
+	*/
 
     /**
      * This function is called once each time the robot enters operator control.
