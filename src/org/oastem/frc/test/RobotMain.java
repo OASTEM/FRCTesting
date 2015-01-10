@@ -22,7 +22,7 @@ import org.oastem.frc.sensor.*;
  * directory.
  */
 public class RobotMain extends SimpleRobot {
-    
+    // creates all the variables
     private DriveSystem ds;
     private Joystick js;
     
@@ -74,6 +74,7 @@ public class RobotMain extends SimpleRobot {
         
        // motor1 = new Jaguar (ENCODER_MOTOR_PORT);
         
+        // create a joystick and a gyro class
         js = new Joystick(JOYSTICK);
         
         gyro = new ADW22307Gyro(GYRO_PORT);
@@ -83,6 +84,7 @@ public class RobotMain extends SimpleRobot {
         solen = new DoubleSolenoid(SOLEN_FORWARD_CHANNEL, SOLEN_BACKWARD_CHANNEL);
         //*/
         
+        //deletes remnants of debug log and gives message that robot successfuly initialized
         Debug.clear();
         Debug.log(1, 1, "Robot initialized.");
     }
@@ -94,12 +96,15 @@ public class RobotMain extends SimpleRobot {
      * This function is called once each time the robot enters operator control.
      */
     public void operatorControl() {
+        // creates time values and sets the motor still
         long currentTime;
         long startTime = 0;
         boolean motorStart = false;
         
+        //creates loops so that the robot can constantly work
         while(isEnabled() && isOperatorControl()){
             
+            //displays the current time
             currentTime = System.currentTimeMillis();
             //debug[0] = "Drive Speed: " + js.getY();
             //ds.mecanumDrive(js.getX(), js.getY(), js.getZ(), gyro.getAngle());
@@ -122,7 +127,10 @@ public class RobotMain extends SimpleRobot {
             }
             //*/
 
+            //displays the gyro angle
             debug[1] = "Gyro: " + gyro.getAngle();
+            
+            //prints out the debug
             Debug.log(debug);
         }
     }
