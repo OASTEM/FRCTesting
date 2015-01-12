@@ -81,7 +81,7 @@ public class RobotMain extends SimpleRobot {
 
         
         //encoder = new Encoder(ENCODER_CH_A, ENCODER_CH_B);
-        encoder = new Encoder(ENCODER_CH_A, ENCODER_CH_B, false, CounterBase.EncodingType.k2X);
+        encoder = new Encoder(ENCODER_CH_A, ENCODER_CH_B, true, CounterBase.EncodingType.k4X);
         encoder.start();
         
         gyro = new ADW22307Gyro(GYRO_PORT);
@@ -105,8 +105,8 @@ public class RobotMain extends SimpleRobot {
         long currentTime;
         long startTime = 0;
         boolean motorStart = false;
-        
-        //encoder.setDistancePerPulse(100);
+        encoder.reset();
+        encoder.setDistancePerPulse((double)4 / 500);
         Debug.clear();
         while(isEnabled() && isOperatorControl()){
             Debug.clear();
@@ -135,11 +135,11 @@ public class RobotMain extends SimpleRobot {
             
             // distancePerPulse
             //ACTIVATE LINE AT TOP OF METHOD
-            //debug[3] = "Distance: " + encoder.getDistance();
+            debug[3] = "Distance: " + encoder.getDistance();
             
             
             // getRate
-            //debug[4] = "Rate: " + encoder.getRate();
+            debug[4] = "Rate: " + encoder.getRate();
             
             
             // encodingScale
