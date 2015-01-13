@@ -40,13 +40,13 @@ public class RobotMain extends SimpleRobot {
     
     private final int JOYSTICK = 1; 
     
-      
+    private final int WHEEL_CIRCUMFERENCE = 7;
     private final int ENCODER_CH_A = 14;
     private final int ENCODER_CH_B = 13;
     private final int ENC_JAG_PORT = 2;
 
     
-    private Encoder encoder;
+    private QuadratureEncoder encoder;
     private ADW22307Gyro gyro;
     /*
     private Compressor compress;
@@ -81,8 +81,8 @@ public class RobotMain extends SimpleRobot {
 
         
         //encoder = new Encoder(ENCODER_CH_A, ENCODER_CH_B);
-        encoder = new Encoder(ENCODER_CH_A, ENCODER_CH_B, true, CounterBase.EncodingType.k4X);
-        encoder.start();
+        encoder = new QuadratureEncoder(ENCODER_CH_A, ENCODER_CH_B, true, 4, 479);
+        encoder.setDistancePerPulse(WHEEL_CIRCUMFERENCE);
         
         gyro = new ADW22307Gyro(GYRO_PORT);
         /*
@@ -106,7 +106,6 @@ public class RobotMain extends SimpleRobot {
         long startTime = 0;
         boolean motorStart = false;
         encoder.reset();
-        encoder.setDistancePerPulse((double)4 / 500);
         Debug.clear();
         while(isEnabled() && isOperatorControl()){
             Debug.clear();
@@ -117,20 +116,20 @@ public class RobotMain extends SimpleRobot {
             
             
             // OUTPUT
-            debug[0] = "Enc: " + encoder.get();
+            debug[1] = "Enc: " + encoder.get();
             
             
             
-            /*// GET DIRECTION
-            if (encoder.getDirection() == true)
-                debug[2] = "Direction true";
+            // GET DIRECTION
+            if (encoder.isGoingForward() == true)
+                debug[2] = "Going Forward";
             else
-                debug[2] = "Direction false";
+                debug[2] = "Going Backward";
             //*/
             
             
             // get VS getRaw
-            debug[1] = "rawEnc: " + encoder.getRaw();
+            debug[0] = "rawEnc: " + encoder.getRaw();
             
             
             // distancePerPulse
@@ -140,6 +139,13 @@ public class RobotMain extends SimpleRobot {
             
             // getRate
             debug[4] = "Rate: " + encoder.getRate();
+            
+            // stopped
+            if (encoder.isStopped() == true)
+                debug[5] = "Encoder stopped";
+            else
+                debug[5] = "Encoder going";
+            //*/
             
             
             // encodingScale

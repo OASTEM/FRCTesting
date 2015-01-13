@@ -19,18 +19,21 @@ public class QuadratureEncoder {
     public QuadratureEncoder(int channelA, int channelB)
     {
         enc = new Encoder(channelA, channelB);
+        enc.start();
     }
     
     public QuadratureEncoder(int channelA, int channelB, double pulsesPerRev)
     {
         enc = new Encoder(channelA, channelB);
         pulsesPerRevolution = pulsesPerRev;
+        enc.start();
     }
     
     public QuadratureEncoder(int channelA, int channelB, boolean isReversed, double pulsesPerRev)
     {
         enc = new Encoder(channelA, channelB, isReversed);
         pulsesPerRevolution = pulsesPerRev;
+        enc.start();
     }
     
     public QuadratureEncoder(int channelA, int channelB, int scaleValue, double pulsesPerRev)
@@ -45,6 +48,7 @@ public class QuadratureEncoder {
             enc = new Encoder(channelA, channelB, false, CounterBase.EncodingType.k4X);
         
         pulsesPerRevolution = pulsesPerRev;
+        enc.start();
     }
     
     public QuadratureEncoder(int channelA, int channelB, boolean isReversed,
@@ -60,6 +64,7 @@ public class QuadratureEncoder {
             enc = new Encoder(channelA, channelB, isReversed, CounterBase.EncodingType.k4X);
         
         pulsesPerRevolution = pulsesPerRev;
+        enc.start();
     }
     
     
