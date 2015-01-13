@@ -36,37 +36,28 @@ public class QuadratureEncoder {
         enc.start();
     }
     
-    public QuadratureEncoder(int channelA, int channelB, int scaleValue, double pulsesPerRev)
-    {
-        if (scaleValue == 1)
-            enc = new Encoder(channelA, channelB, false, CounterBase.EncodingType.k1X);
-        else if (scaleValue == 2)
-            enc = new Encoder(channelA, channelB, false, CounterBase.EncodingType.k2X);
-        else if (scaleValue == 4)
-            enc = new Encoder(channelA, channelB, false, CounterBase.EncodingType.k4X);
-        else
-            enc = new Encoder(channelA, channelB, false, CounterBase.EncodingType.k4X);
-        
-        pulsesPerRevolution = pulsesPerRev;
-        enc.start();
-    }
-    
     public QuadratureEncoder(int channelA, int channelB, boolean isReversed,
                             int scaleValue, double pulsesPerRev)
     {
+        CounterBase.EncodingType encType = CounterBase.EncodingType.k4X;
+        
         if (scaleValue == 1)
-            enc = new Encoder(channelA, channelB, isReversed, CounterBase.EncodingType.k1X);
+            encType = CounterBase.EncodingType.k1X;
         else if (scaleValue == 2)
-            enc = new Encoder(channelA, channelB, isReversed, CounterBase.EncodingType.k2X);
+            encType = CounterBase.EncodingType.k2X;
         else if (scaleValue == 4)
-            enc = new Encoder(channelA, channelB, isReversed, CounterBase.EncodingType.k4X);
-        else
-            enc = new Encoder(channelA, channelB, isReversed, CounterBase.EncodingType.k4X);
+            encType = CounterBase.EncodingType.k4X;
+        
+        enc = new Encoder(channelA, channelB, isReversed, encType);
         
         pulsesPerRevolution = pulsesPerRev;
         enc.start();
     }
     
+    public QuadratureEncoder(int channelA, int channelB, int scaleValue, double pulsesPerRev)
+    {
+        this(channelA, channelB, false, scaleValue, pulsesPerRev);
+    }
     
     public void free()
     {
