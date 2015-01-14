@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.Encoder;
  * @author mduong15
  */
 public class QuadratureEncoder {
-    private Encoder enc;
+    private final Encoder enc;
     private double pulsesPerRevolution;
     
     public QuadratureEncoder(int channelA, int channelB)
@@ -108,14 +108,9 @@ public class QuadratureEncoder {
         enc.reset();
     }
     
-    public void setDistancePerPulse(int wheelCircumference)
+    public void setDistancePerPulse(int distancePerDriverRevolution)
     {
-        enc.setDistancePerPulse(wheelCircumference / pulsesPerRevolution);
-    }
-    
-    public void setDistanceWithRatio(int distancePerPulse, double gearRatio)
-    {
-        enc.setDistancePerPulse(distancePerPulse * gearRatio);
+        enc.setDistancePerPulse(distancePerDriverRevolution / pulsesPerRevolution);
     }
     
 }
