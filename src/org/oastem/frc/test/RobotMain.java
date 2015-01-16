@@ -44,6 +44,8 @@ public class RobotMain extends SimpleRobot {
     private final int ENCODER_CH_A = 14;
     private final int ENCODER_CH_B = 13;
     private final int ENC_JAG_PORT = 2;
+    private final int CHAIN_UP_BUTTON = 11;
+    private final int CHAIN_DOWN_BUTTON = 10;
 
     
     private QuadratureEncoder encoder;
@@ -106,52 +108,39 @@ public class RobotMain extends SimpleRobot {
         long startTime = 0;
         boolean motorStart = false;
         encoder.reset();
+        double wantedDistance = 0;
+        boolean canPress = true;
         Debug.clear();
         while(isEnabled() && isOperatorControl()){
             Debug.clear();
             currentTime = System.currentTimeMillis();
             //debug[0] = "Drive Speed: " + js.getY();
             //ds.mecanumDrive(js.getX(), js.getY(), js.getZ(), gyro.getAngle());
-            motor1.set(js.getY());
             
-            
-            // OUTPUT
-            debug[1] = "Enc: " + encoder.get();
-            
-            
-            
-            // GET DIRECTION
-            if (encoder.isGoingForward() == true)
-                debug[2] = "Going Forward";
+            if(encoder.getDistance() < wantedDistance - 2)
+                motor1.set(-50);
+            else if (wantedDistance + 2 < encoder.getDistance())
+                motor1.set(50);
             else
-                debug[2] = "Going Backward";
-            //*/
+                motor1.set(0);
+            if (!js.getRawButton(CHAIN_UP_BUTTON) && !js.getRawButton(CHAIN_DOWN_BUTTON))
+                canPress = true;
             
+            if (encoder.isStopped() && js.getRawButton(CHAIN_UP_BUTTON) && canPress)
+            {
+                wantedDistance += 15;
+                canPress = false;
+            }
             
-            // get VS getRaw
-            debug[0] = "rawEnc: " + encoder.getRaw();
+            else if (encoder.isStopped() && js.getRawButton(CHAIN_DOWN_BUTTON) && canPress)
+            {
+                wantedDistance -= 15;
+                canPress = false;
+            }
+            //motor1.set(js.getY());
             
-            
-            // distancePerPulse
-            //ACTIVATE LINE AT TOP OF METHOD
-            debug[3] = "Distance: " + encoder.getDistance();
-            
-            
-            // getRate
-            debug[4] = "Rate: " + encoder.getRate();
-            
-            // stopped
-            if (encoder.isStopped() == true)
-                debug[5] = "Encoder stopped";
-            else
-                debug[5] = "Encoder going";
-            //*/
-            
-            
-            // encodingScale
-            //ACTIVATE LINE AT INIT
-            //look at how enc.get() is different
-            //also compare with getRaw()
+            debug[0] = "Distance: " + encoder.getDistance();
+            debug[1] = "Wanted: " + wantedDistance;
             
             
             
