@@ -158,7 +158,7 @@ public class RobotMain extends SimpleRobot {
 				//how we want to get ready for operator control
 			default: 
 				//what to do if something fails
-				break; //kys
+				break; //ihy
 		}
 	}
 	
@@ -176,12 +176,11 @@ public class RobotMain extends SimpleRobot {
 			return false;
 		} else {
 			return true;
-		}
+}
 	}
 	
 	private boolean redo(long currTime, long triggerStart) {
 		hook.downToUnhook();
-		robot.drive(justSmallDistanceToReposition);
 		if (!robot.drive(justSmallDistanceToReposition) || currTime - triggerStart > 1000L) {
 			return false;
 		} else {
@@ -190,7 +189,6 @@ public class RobotMain extends SimpleRobot {
 	}
 	
 	private boolean moveAuto(long currTime, long triggerStart) {
-		robot.drive(distanceToAuto);
 		if(!robot.drive(distanceToAuto) || !checkHooked() || currTime-triggerStart > 5000L) {
 			return false;
 		} else {
@@ -220,10 +218,6 @@ public class RobotMain extends SimpleRobot {
         
         while(isEnabled() && isOperatorControl()){
             currentTime = System.currentTimeMillis();
-            
-            
-            
-            
             
             
             if (js.getRawButton(SOL_FORWARD_BUTTON))
