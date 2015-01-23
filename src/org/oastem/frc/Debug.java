@@ -4,13 +4,12 @@ import edu.wpi.first.wpilibj.DriverStationLCD;
 import edu.wpi.first.wpilibj.DriverStationLCD.Line;
 
 /**
- * Class used to debug to the Driver Station window.
+ * A debug class.
  *
  * @author KTOmega
  */
 public class Debug {
-	// Contains all the lines on the screen, some of which might
-	// be deprecated.
+
     private static Line[] lines = new Line[]{
         Line.kMain6,
         Line.kUser2,
@@ -19,8 +18,6 @@ public class Debug {
         Line.kUser5,
         Line.kUser6
     };
-    
-    // The actual driver station window.
     private static DriverStationLCD ds = DriverStationLCD.getInstance();
 
     /**
@@ -41,11 +38,6 @@ public class Debug {
         update();
     }
 
-	/**
-     * Log to Driver Station LCD.
-     *
-     * @param text The lines to send.
-     */
     public static void log(String[] text) {
         for (int i = 0; i < text.length; i++) {
             if (text[i] == null || text[i].trim().equals("")) {
@@ -78,9 +70,17 @@ public class Debug {
     }
 
     public static void clear() {
-        for (int i = 1; i <= lines.length; i++) {
-            clearLine(i);
+        String pad = "";
+
+        for (int i = 0; i < DriverStationLCD.kLineLength; i++) {
+            pad += " ";
         }
+
+        for (int i = 0; i < 6; i++) {
+            ds.println(lines[i], 1, pad);
+        }
+
+        update();
     }
 
     private static void update() {
