@@ -86,9 +86,9 @@ public class RobotMain extends SimpleRobot {
         Debug.log(1, 1, "Robot initialized.");
     }
     
-    /*
-	*This is autonomous pseudocode and it should hopefully logically work <3
-	*
+    
+	//This is autonomous pseudocode and it should hopefully logically work <3
+
 	
 	public static final int START = 0;
 	public static final int GOTO_TOTE = 1;

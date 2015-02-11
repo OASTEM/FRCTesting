@@ -25,7 +25,7 @@ public class Accelerator {
         return speed;
     }
 
-    private double accelerate(double currSpeed, double commandSpeed, long time) {
+    public double accelerate(double currSpeed, double commandSpeed) {
         System.out.println(currSpeed+" Distance/Time");
         if (Math.abs(currSpeed - commandSpeed) > THRESHOLD) {
            if (time > 40L) {
@@ -46,5 +46,18 @@ public class Accelerator {
     public double getSpeed() {
         return speed;
     }
+
+	public void accelDistance(double currSpeed, double distance) {
+		currSpeed = getSpeed();
+		if(currSpeed * currTime < distance/2) {
+			accelerate(currSpeed, currSpeed * 1.5);
+			currSpeed = getSpeed();
+		} else if (currSpeed * currTime < distance) {
+			accelerate(currSpeed, currSpeed * 0.66);
+			currSpeed = getSpeed();
+		} else {
+			currSpeed = getSpeed();
+		}
+	}	
     
 }
