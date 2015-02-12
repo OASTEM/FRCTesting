@@ -138,6 +138,7 @@ public class RobotMain extends SimpleRobot {
 						resetCount++;
 					}
 				} else {
+					triggerStart = currTime
 					state = MOVETO_AUTO;
 				}
 				break;
@@ -180,7 +181,7 @@ public class RobotMain extends SimpleRobot {
 	
 	private boolean hookUp(long currTime, long triggerStart) {
 		hook.upToTote(); //lol I wish this were already a method
-		if(!checkHooked() && currTime - triggerStart <= 2000L ) { //however long it takes to hook the tote
+		if(!checkHooked()) { //however long it takes to hook the tote
 			return false;
 		} else {
 			return true;
