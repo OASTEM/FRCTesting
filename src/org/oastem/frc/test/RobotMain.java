@@ -132,7 +132,7 @@ public class RobotMain extends SimpleRobot {
 						triggerStart = currTime;
 						state = MOVETO_AUTO;
 					} 
-					if (currTime - triggerStart > 1750L) {
+					if (currTime - triggerStart > 1750L) { // more adjust time as necessary
 						triggerStart = currTime;
 						state = RESET; //count attempts
 						resetCount++;
@@ -153,7 +153,7 @@ public class RobotMain extends SimpleRobot {
 					triggerStart = currTime;
 					state = RELEASE;
 				} 
-				if (currTime - triggerStart > 2500L) {
+				if (currTime - triggerStart > 5000) { // adjust time as necesary
 					triggerStart = currTime;
 					state = READY;
 				}
@@ -198,7 +198,7 @@ public class RobotMain extends SimpleRobot {
 	}
 	
 	private boolean moveAuto(long currTime, long triggerStart) {
-		if(!robot.drive(distanceToAuto) && !checkHooked() && currTime-triggerStart <= 5000L) {
+		if(!robot.drive(distanceToAuto)) {
 			return false;
 		} else {
 			return true;
