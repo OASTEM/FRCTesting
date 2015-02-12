@@ -86,9 +86,37 @@ public class RobotMain extends SimpleRobot {
         Debug.log(1, 1, "Robot initialized.");
     }
     
-    
-	//This is autonomous pseudocode and it should hopefully logically work <3
+    /*
+	*This is autonomous pseudocode and it should hopefully logically work <3
+	*
 
+1:	init start state
+2:	init resetCount
+3:	switch time comparison from > to  <=
+	> implies the if branches hit false if it takes too long, never moving to the next state
+4:	the else block in UPLIFT case implies rapid switch to RESET state, since the the if statement will most likely
+	return false in the first few milliseconds 
+5:	the else block in MOVETO_AUTO case implies rapid switch to READY state, 
+	since again, the if statement will most likely return false in the first few milliseconds
+	
+The biggest issues (in order of issue importance) are 3, 4, 5.
+Issue 5 will only skip the release state, but overall is not as destructive as the other two issues. 
+Issue 4 will cause rapid hook activation and deactivation, but only 3 times, since the reset count times out. However, this will leave the robot stuck in UPLIFT state. 
+Issue 3 will cause the robot to possibly get stuck in every case that involves timeouts. Remember, currTime - triggerStart = how much time has passed since we started this method, and the > comparison will hit true if the time passed is OVER the timeout. If it hits true, then the false gets returned, and the robot will be in its current state for all eternity. 
+
+Fixes:
+Issue 5 can be fixed by removing the else block or adding an additional if statement for a timeout to switch to READY state. 
+Issue 4 can be fixed by again, removing the else block or adding an additional if statement timeout to switch to RESET state. (Although, this state itself seems pointless)
+Issue 3 can be fixed be replacing all > in the methods with <= and replacing all || with &&, or by swapping the true and false returns in each method. 
+
+	* 
+	* 
+	* 
+	* 
+	* 
+	* 
+	* 
+	* 
 	
 	public static final int START = 0;
 	public static final int GOTO_TOTE = 1;
@@ -129,11 +157,14 @@ public class RobotMain extends SimpleRobot {
 					if(hookUp(currTime, triggerStart)) {
 						triggerStart = currTime;
 						state = MOVETO_AUTO;
-					} else {
+					} 
+					if (currTime - triggerStart > 1750L) {
+						triggerStart = currTime;
 						state = RESET; //count attempts
 						resetCount++;
 					}
 				}
+				state = MOVETO_AUTO;
 				break;
 			case RESET:
 				if(redo(currTime, triggerStart)) {
@@ -145,7 +176,9 @@ public class RobotMain extends SimpleRobot {
 				if(moveAuto(currTime, triggerStart)) {
 					triggerStart = currTime;
 					state = RELEASE;
-				} else {
+				} 
+				if (currTime - triggerStart > 2500L) {
+					triggerStart = currTime;
 					state = READY;
 				}
 				break;
@@ -163,7 +196,7 @@ public class RobotMain extends SimpleRobot {
 	}
 	
 	private boolean moveForward(long currTime, long triggerStart) {
-		if(!robot.drive(distanceToTote) || currTime - triggerStart > 1500L) { //lol this isn't a method but should return T/F 
+		if(!robot.drive(distanceToTote) && currTime - triggerStart <= 1500L) { //lol this isn't a method but should return T/F 
 			return false;
 		} else {
 			return true;
@@ -172,7 +205,7 @@ public class RobotMain extends SimpleRobot {
 	
 	private boolean hookUp(long currTime, long triggerStart) {
 		hook.upToTote(); //lol I wish this were already a method
-		if(!checkHooked() || currTime - triggerStart > 2000L ) { //however long it takes to hook the tote
+		if(!checkHooked() && currTime - triggerStart <= 2000L ) { //however long it takes to hook the tote
 			return false;
 		} else {
 			return true;
@@ -181,7 +214,7 @@ public class RobotMain extends SimpleRobot {
 	
 	private boolean redo(long currTime, long triggerStart) {
 		hook.downToUnhook();
-		if (!robot.drive(justSmallDistanceToReposition) || currTime - triggerStart > 1000L) {
+		if (!robot.drive(justSmallDistanceToReposition) && currTime - triggerStart <= 1000L) {
 			return false;
 		} else {
 			return true;
@@ -189,7 +222,7 @@ public class RobotMain extends SimpleRobot {
 	}
 	
 	private boolean moveAuto(long currTime, long triggerStart) {
-		if(!robot.drive(distanceToAuto) || !checkHooked() || currTime-triggerStart > 5000L) {
+		if(!robot.drive(distanceToAuto) && !checkHooked() && currTime-triggerStart <= 5000L) {
 			return false;
 		} else {
 			return true;
@@ -198,7 +231,7 @@ public class RobotMain extends SimpleRobot {
 	
 	private boolean releaseTote(long currTime, long triggerStart) {
 		hook.downToUnhook();
-		if(checkHooked() || currTime - triggerStart > 1500L) {
+		if(checkHooked() && currTime - triggerStart <= 1500L) {
 			return false;
 		} else {
 			robot.reverse(justSmallDistanceToReposition);
