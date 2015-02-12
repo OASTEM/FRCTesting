@@ -86,11 +86,10 @@ public class RobotMain extends SimpleRobot {
         Debug.log(1, 1, "Robot initialized.");
     }
     
+
+
     /*
 	*This is autonomous pseudocode and it should hopefully logically work <3
-	*
-	* 
-	* 
 	
 	public static final int START = 0;
 	public static final int GOTO_TOTE = 1;
@@ -100,17 +99,17 @@ public class RobotMain extends SimpleRobot {
 	public static final int RELEASE = 5;
 	//public static final int READY = 6;
 	
-	private int state;
-	private int resetCount;
+	private int state = 0;
+	private int resetCount = 0;
 	private long currTime = 0L;
 	private long triggerStart = 0L;
 	
 	public void autonomous() {
 		debug[0] = "Autonomous mode enabled";
 		while(isAutonomous() && isEnabled()) {
-			imageProcessing();
+			//imageProcessing();
 			currTime = System.currentTimeMillis();
-			joytonomousStates(currTime); //not sure if this should be here
+			joytonomousStates(currTime); 
 		}
 		Debug.log(debug);
 	}
@@ -119,6 +118,7 @@ public class RobotMain extends SimpleRobot {
 		switch(state) {
 			case START:
 				//anything we need to go beforehand
+				state = GOTO_TOTE;
 				break;
 			case GOTO_TOTE:
 				if(moveForward(currTime, triggerStart)) {
@@ -137,8 +137,9 @@ public class RobotMain extends SimpleRobot {
 						state = RESET; //count attempts
 						resetCount++;
 					}
+				} else {
+					state = MOVETO_AUTO;
 				}
-				state = MOVETO_AUTO;
 				break;
 			case RESET:
 				if(redo(currTime, triggerStart)) {
@@ -164,7 +165,7 @@ public class RobotMain extends SimpleRobot {
 			case READY:
 				//how we want to get ready for operator control
 			default: 
-				//what to do if something fails
+				System.out.println("Kms");
 				break; //ihy
 		}
 	}
@@ -183,7 +184,7 @@ public class RobotMain extends SimpleRobot {
 			return false;
 		} else {
 			return true;
-}
+		}
 	}
 	
 	private boolean redo(long currTime, long triggerStart) {
@@ -214,6 +215,8 @@ public class RobotMain extends SimpleRobot {
 	}
 	
 	*/
+
+    
 
     /**
      * This function is called once each time the robot enters operator control.
