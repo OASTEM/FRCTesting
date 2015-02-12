@@ -153,7 +153,7 @@ public class RobotMain extends SimpleRobot {
 					triggerStart = currTime;
 					state = RELEASE;
 				} 
-				if (currTime - triggerStart > 5000) { // adjust time as necesary
+				if (currTime - triggerStart > 5000L) { // adjust time as necesary
 					triggerStart = currTime;
 					state = READY;
 				}
